@@ -1,0 +1,42 @@
+name: Feature
+description: 새로운 기능 개발 이슈
+title: "[Feature] "
+labels: ["feature"]
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 배경
+      description: 왜 이 기능이 필요한지 작성해주세요.
+      placeholder: 예) 사용자가 오늘 목표 달성 현황을 한눈에 보기 어렵습니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: 목표
+      description: 구현하려는 기능을 작성해주세요.
+      placeholder: 예) 홈 화면 상단에 오늘의 성장 현황 카드 추가
+    validations:
+      required: true
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 작업 내용
+      description: 해야 할 작업을 체크리스트 형태로 작성해주세요.
+      value: |
+        - [ ] UI 작성
+        - [ ] ViewModel 연결
+        - [ ] Repository 연결
+        - [ ] 테스트
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: 참고 자료
+      description: 관련 화면, API, ERD, 디자인, 노션 링크 등이 있으면 작성해주세요.
+      placeholder: 예) Figma 링크, API 명세 링크 등

@@ -1,0 +1,32 @@
+name: Chore
+description: 설정, 문서, 빌드, 기타 작업
+title: "[Chore] "
+labels: ["chore"]
+body:
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 작업 목적
+      description: 왜 이 작업이 필요한지 작성해주세요.
+      placeholder: 예) Room 의존성 추가 및 버전 정리
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 작업 내용
+      value: |
+        - [ ] 의존성 추가/정리
+        - [ ] 빌드 설정 수정
+        - [ ] 문서 수정
+        - [ ] 기타 설정 반영
+    validations:
+      required: true
+
+  - type: textarea
+    id: note
+    attributes:
+      label: 참고 사항
+      description: 주의할 점이 있으면 작성해주세요.
+      placeholder: 예) AGP 버전과 Kotlin 버전 호환성 확인 필요
