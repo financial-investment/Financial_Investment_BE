@@ -37,9 +37,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
                 .getUserInfoEndpoint().getUserNameAttributeName();
 
-
-
-
         Map<String, Object> attributes = oAuth2User.getAttributes();
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
@@ -47,10 +44,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String email = (String) response.get("email");
         String name = (String) response.get("name");
 
-        System.out.println(registrationId);
-        System.out.println(providerUserId);
-        System.out.println(email);
-        System.out.println(name);
+//        System.out.println(registrationId);
+//        System.out.println(providerUserId);
+//        System.out.println(email);
+//        System.out.println(name);
 
         User user = userRepository
                 .findByProviderAndProviderUserId(OauthProvider.NAVER, providerUserId)

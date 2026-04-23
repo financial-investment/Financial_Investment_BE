@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
@@ -24,18 +25,20 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
+                .formLogin((auth) -> auth.disable())
+                .httpBasic((auth) -> auth.disable())
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/",
-                                "/error",
-                                "oauth2/authorization/**"
-                        ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
-                        .requestMatchers("/api/v1/users/**").hasRole(Role.USER.name())
-                        .requestMatchers("/h2-console/**").hasRole(Role.ADMIN.name())
+                                .requestMatchers(
+                                        "/",
+                                        "/error",
+                                        "oauth2/authorization/**"
+                                ).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
+                                .requestMatchers("/api/v1/users/**").hasRole(Role.USER.name())
+                                .requestMatchers("/h2-console/**").hasRole(Role.ADMIN.name())
 //                        .requestMatchers("/api/v1/auth/**").authenticated() //로그인이 되어 있다면
-                        .anyRequest().denyAll() //그 외에는 모두 거부.
+                                .anyRequest().denyAll() //그 외에는 모두 거부.
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
@@ -48,7 +51,9 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)
                         )
-                );
+                )
+                .sessionManagement((session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)));//세션 설정을 STATELESS방식으로 함.
 
         return http.build();
     }

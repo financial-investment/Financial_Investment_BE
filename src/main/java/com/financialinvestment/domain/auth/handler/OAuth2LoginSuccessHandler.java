@@ -38,7 +38,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         cookie.setPath("/");   // 이게 핵심
         cookie.setMaxAge(60 * 60); // 1시간
         response.addCookie(cookie);
-        response.addCookie(cookie);
         response.sendRedirect("http://localhost:5173/login/success");
     }
 }
