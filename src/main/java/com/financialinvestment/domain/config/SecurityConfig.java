@@ -2,6 +2,8 @@ package com.financialinvestment.domain.config;
 
 import com.financialinvestment.domain.auth.entity.Role;
 import com.financialinvestment.domain.auth.handler.OAuth2LoginSuccessHandler;
+import com.financialinvestment.domain.auth.jwt.JWTFilter;
+import com.financialinvestment.domain.auth.jwt.JwtTokenProvider;
 import com.financialinvestment.domain.auth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -21,23 +24,29 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final JwtTokenProvider jwtTokenProvider;
+
+
     @Bean
+
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .formLogin((auth) -> auth.disable())
                 .httpBasic((auth) -> auth.disable())
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                .addFilterBefore(new JWTFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(
                                         "/",
                                         "/error",
-                                        "oauth2/authorization/**"
+                                        "/oauth2/authorization/**",
+                                        "/login/oauth2/**",
+                                        "/h2-console/**"
                                 ).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
-                                .requestMatchers("/api/v1/users/**").hasRole(Role.USER.name())
-                                .requestMatchers("/h2-console/**").hasRole(Role.ADMIN.name())
-//                        .requestMatchers("/api/v1/auth/**").authenticated() //로그인이 되어 있다면
+                                .requestMatchers(HttpMethod.GET, "/user/me").authenticated()
+                                .requestMatchers("/api/v1/users/**","/mypage").hasRole(Role.USER.name())
                                 .anyRequest().denyAll() //그 외에는 모두 거부.
                 )
                 .exceptionHandling(exception -> exception

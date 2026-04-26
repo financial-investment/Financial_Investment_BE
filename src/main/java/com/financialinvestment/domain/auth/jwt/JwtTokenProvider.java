@@ -1,6 +1,5 @@
-package com.financialinvestment.domain.auth.service;
+package com.financialinvestment.domain.auth.jwt;
 
-import com.financialinvestment.domain.auth.jwt.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

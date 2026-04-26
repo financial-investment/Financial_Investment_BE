@@ -1,6 +1,6 @@
 package com.financialinvestment.domain.auth.handler;
 
-import com.financialinvestment.domain.auth.service.JwtTokenProvider;
+import com.financialinvestment.domain.auth.jwt.JwtTokenProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Map;
 
 @Component
@@ -28,7 +27,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
-
         Long userId = Long.valueOf(String.valueOf(attributes.get("userId")));
         String role = String.valueOf(attributes.get("role"));
 
