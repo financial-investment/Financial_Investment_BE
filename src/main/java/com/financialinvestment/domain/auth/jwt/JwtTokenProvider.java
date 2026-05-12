@@ -89,6 +89,7 @@ public class JwtTokenProvider {
         return false;
     }
 
+    // 혹시 추후에 Authentication으로 jwt를 보낼 때.
     public String extractToken(String bearerToken) {
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
