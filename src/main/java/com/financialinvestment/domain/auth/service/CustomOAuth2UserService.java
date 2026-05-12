@@ -59,7 +59,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Map<String, Object> customAttributes = new HashMap<>(response);
         customAttributes.put("userId", user.getUserId());
         customAttributes.put("role", user.getRole().name());
-        customAttributes.put("name", user.getName());
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())),
